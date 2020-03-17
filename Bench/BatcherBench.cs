@@ -9,9 +9,7 @@ namespace bench
     [MemoryDiagnoser]
     public class BatcherBench
     {
-
-
-        const string connectionString = "server=localhost;port=3306;user=test;database=todo;password=test";
+        const string connectionString = "server=localhost;port=3306;user=test;database=test;password=test";
         TestObject[] _objects;
         MySqlConnection _conn;
         public BatcherBench()
@@ -144,37 +142,6 @@ namespace bench
 
             }
         }
-
-        [Benchmark]
-        public void EFInsertLoopTransactClearContext()
-        {
-            using (var conn = new MySqlConnection(connectionString))
-            {
-                conn.Open();
-                _EFInsertLoopTransactClearContext(conn);
-                conn.Close();
-            }
-
-            // _EFInsertLoopTransactClearContext(_conn);
-        }
-
-        private void _EFInsertLoopTransactClearContext(MySqlConnection conn)
-        {
-            var context = _newContext(conn);
-            int count = 1;
-
-            using (var tx = conn.BeginTransaction())
-            {
-                foreach (TestObject o in _objects)
-                {
-                    context = _addWithContext(context, conn, tx, o, count, 100);
-                    count++;
-                }
-                tx.Commit();
-            }
-
-        }
-
         private TestObject[] _spawn(int n)
         {
             TestObject[] os = new TestObject[n];

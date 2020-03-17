@@ -64,14 +64,14 @@ namespace Batcher.Tests
         public void TestBuildInsertQuery()
         {
             var batcher = new Batcher<TestObject>(3);
-            Assert.Equal("insert into TestObjects values (@1,@2,@3,@4), (@5,@6,@7,@8), (@9,@10,@11,@12)", batcher.query);
+            Assert.Equal("insert into TestObjects values (@1,@2,@3,@4),(@5,@6,@7,@8),(@9,@10,@11,@12)", batcher.query);
         }
 
         [Fact]
         public void TestBuildInsertQueryOnDuplicate()
         {
             var batcher = new Batcher<TestObject>(3, true);
-            Assert.Equal("insert into TestObjects values (@1,@2,@3,@4), (@5,@6,@7,@8), (@9,@10,@11,@12) as r on duplicate key update ID=r.ID, A=r.A, B=r.B, C=r.C", batcher.query);
+            Assert.Equal("insert into TestObjects values (@1,@2,@3,@4),(@5,@6,@7,@8),(@9,@10,@11,@12) as r on duplicate key update ID=r.ID,A=r.A,B=r.B,C=r.C", batcher.query);
         }
 
         [Fact]

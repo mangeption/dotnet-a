@@ -99,7 +99,7 @@
           "dependencies": {
             "BenchmarkDotNet": {
               "target": "Package",
-              "version": "(, )"
+              "version": "[0.12.0, )"
             }
           },
           "imports": [

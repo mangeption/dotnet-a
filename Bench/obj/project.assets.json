@@ -6013,7 +6013,7 @@
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
       "A >= 1.0.0",
-      "BenchmarkDotNet"
+      "BenchmarkDotNet >= 0.12.0"
     ]
   },
   "packageFolders": {
@@ -6057,7 +6057,7 @@
         "dependencies": {
           "BenchmarkDotNet": {
             "target": "Package",
-            "version": "(, )"
+            "version": "[0.12.0, )"
           }
         },
         "imports": [

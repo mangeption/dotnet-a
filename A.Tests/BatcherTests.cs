@@ -6,9 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Collections.Generic;
 using Microsoft.Extensions.Configuration;
-using System.Configuration;
 
-namespace Batcher.Tests
+namespace A.Tests
 {
     public class TestObject : IComparable<TestObject>
     {

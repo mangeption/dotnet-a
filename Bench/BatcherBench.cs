@@ -14,20 +14,9 @@ namespace bench
         MySqlConnection _conn;
         public BatcherBench()
         {
-            // using (MySqlConnection conn = new MySqlConnection(connectionString))
-            // {
-            //     conn.Open();
-            //     var query = "drop table if exists TestObjects; create table if not exists TestObjects(ID varchar(36) primary key, Title text)";
-            //     using (var cmd = new MySqlCommand(query, conn))
-            //     {
-            //         cmd.ExecuteNonQuery();
-            //     }
-            //     conn.Close();
-            // }
             _conn = new MySqlConnection(connectionString);
             _conn.Open();
-            var query = "drop table if exists TestObjects; create table if not exists TestObjects(ID varchar(36) primary key, Title text)";
-            using (var cmd = new MySqlCommand(query, _conn))
+              using (var cmd = new MySqlCommand("truncate TestObjects", _conn))
             {
                 cmd.ExecuteNonQuery();
             }

@@ -14,11 +14,17 @@ namespace A
         private int _counter = 0;
         private MySqlCommand _command;
 
+        private StringBuilder builder;
+        private string[] _placeHolders;
+
+        private const int _numPlaceHolders = 200;
+
         public Batcher(int batchSize, bool onDuplicate = false)
         {
             _batchSize = batchSize;
             _colCount = _properties.Length;
             _onDuplicate = onDuplicate;
+            _placeHolders = _generatePlaceHolders(_numPlaceHolders);
 
             _command = new MySqlCommand(_buildInsertQuery(batchSize, _colCount));
         }
@@ -50,10 +56,11 @@ namespace A
 
         public void Insert(T entry)
         {
-            var idx = _counter * _colCount + 1;
+            var idx = _counter * _colCount;
             foreach (var property in _properties)
             {
-                var propertyName = $"@{idx}";
+                // var propertyName = $"@{idx+1}";
+                var propertyName = _getPlaceHolderAt(idx);
                 _command.Parameters.AddWithValue(propertyName, property.GetValue(entry));
                 idx++;
             }
@@ -125,7 +132,6 @@ namespace A
         private string _buildRow(int startIdx, int colCount)
         {
             var builder = new StringBuilder();
-            // builder.Append($"(@{startIdx}"); // Append first param to avoid leading comma
             builder.Append("(");
             for (int j = startIdx; j < colCount + startIdx; j++)
             {
@@ -140,6 +146,27 @@ namespace A
         {
             _command.Parameters.Clear();
             _counter = 0;
+        }
+
+        private string[] _generatePlaceHolders(int n)
+        {
+            var placeHolders = new string[n];
+            for (int i = 0; i < n; i++)
+            {
+                placeHolders[i] = $"@{i+1}";
+            }
+
+            return placeHolders;
+        }
+
+        private string _getPlaceHolderAt(int i)
+        {
+            if (i < _numPlaceHolders)
+            {
+                return _placeHolders[i];
+            }
+
+            return $"@{i+1}";
         }
     }
 }
